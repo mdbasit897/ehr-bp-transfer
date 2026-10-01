@@ -1,0 +1,22 @@
+\begin{table}[t]
+\centering
+\scriptsize
+\caption{Decomposition of the MIMIC-III$\rightarrow$eICU gap, SBP (tree density-ratio weights).}
+\label{tab:decomposition_sbp_tree}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{llll}
+\toprule
+Setting / component & $R^2$ & RMSE & Bias \\
+\midrule
+MIMIC-III internal & 0.174 [0.164, 0.185] & 15.941 [15.761, 16.113] & 0.050 [-0.172, 0.284] \\
+MIMIC-III reweighted to eICU case-mix & 0.176 [0.155, 0.196] & 16.222 [15.892, 16.590] & 0.844 [0.363, 1.348] \\
+MIMIC-III $\rightarrow$ eICU (observed) & 0.111 [0.101, 0.120] & 17.417 [17.129, 17.692] & -2.051 [-2.484, -1.678] \\
+eICU local (reference) & 0.157 [0.147, 0.166] & 16.964 [16.713, 17.202] & -0.001 [-0.390, 0.338] \\
+$\Delta$ case-mix (covariate shift) & 0.002 [-0.018, 0.019] & 0.282 [-0.013, 0.608] & 0.794 [0.351, 1.233] \\
+$\Delta$ feature--BP relationship & -0.065 [-0.088, -0.041] & 1.194 [0.760, 1.629] & -2.894 [-3.561, -2.250] \\
+Total gap (observed $-$ internal) & -0.063 [-0.077, -0.050] & 1.476 [1.141, 1.822] & -2.101 [-2.597, -1.632] \\
+Transfer loss (observed $-$ local) & -0.046 [-0.054, -0.038] & 0.453 [0.373, 0.536] & -2.050 [-2.255, -1.872] \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

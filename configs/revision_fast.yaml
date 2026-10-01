@@ -1,0 +1,14 @@
+# Quick first look at REAL data (same extraction cache as revision.yaml, no re-query).
+# Skips the slow stacked ensemble and uses fewer CV repeats / bootstrap draws.
+project_id: null   # your GCP billing project (or set GOOGLE_CLOUD_PROJECT)
+cache_dir: data_cache
+output_dir: results_fast
+
+analysis:
+  primary_model: xgb
+  models: [mean, persistence, ridge, xgb]
+  cv_repeats: 1
+  n_bootstrap: 200
+
+experiments:
+  imputation: false

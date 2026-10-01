@@ -1,0 +1,29 @@
+\begin{table}[t]
+\centering
+\scriptsize
+\caption{Recalibration: MIMIC-III model evaluated on held-out eICU hospitals (mean $\pm$ SD over hospital splits). ``None is evaluated on the held-out hospitals only, so it differs slightly from the full-eICU estimate.}
+\label{tab:recalibration_bp}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lllll}
+\toprule
+Target & Method & $R^2$ & RMSE (mmHg) & Bias (mmHg) \\
+\midrule
+DBP & None (MIMIC-III model as is) & -0.011 $\pm$ 0.015 & 11.581 $\pm$ 0.075 & -5.031 $\pm$ 0.132 \\
+DBP & Intercept (offset) only & 0.179 $\pm$ 0.006 & 10.438 $\pm$ 0.045 & -0.051 $\pm$ 0.421 \\
+DBP & Linear & 0.187 $\pm$ 0.006 & 10.388 $\pm$ 0.045 & -0.074 $\pm$ 0.410 \\
+DBP & Isotonic & 0.186 $\pm$ 0.005 & 10.395 $\pm$ 0.043 & -0.077 $\pm$ 0.411 \\
+DBP & New model trained on calibration hospitals & 0.197 $\pm$ 0.007 & 10.323 $\pm$ 0.055 & -0.036 $\pm$ 0.347 \\
+MAP & None (MIMIC-III model as is) & -0.045 $\pm$ 0.024 & 13.604 $\pm$ 0.225 & -4.874 $\pm$ 0.416 \\
+MAP & Intercept (offset) only & 0.081 $\pm$ 0.009 & 12.758 $\pm$ 0.106 & -0.307 $\pm$ 1.360 \\
+MAP & Linear & 0.087 $\pm$ 0.009 & 12.717 $\pm$ 0.108 & -0.329 $\pm$ 1.334 \\
+MAP & Isotonic & 0.085 $\pm$ 0.010 & 12.730 $\pm$ 0.106 & -0.326 $\pm$ 1.337 \\
+MAP & New model trained on calibration hospitals & 0.140 $\pm$ 0.014 & 12.344 $\pm$ 0.072 & -0.208 $\pm$ 1.007 \\
+SBP & None (MIMIC-III model as is) & 0.109 $\pm$ 0.004 & 17.465 $\pm$ 0.114 & -2.093 $\pm$ 0.169 \\
+SBP & Intercept (offset) only & 0.121 $\pm$ 0.004 & 17.345 $\pm$ 0.102 & -0.064 $\pm$ 0.553 \\
+SBP & Linear & 0.121 $\pm$ 0.004 & 17.346 $\pm$ 0.102 & -0.075 $\pm$ 0.541 \\
+SBP & Isotonic & 0.119 $\pm$ 0.003 & 17.361 $\pm$ 0.103 & -0.076 $\pm$ 0.539 \\
+SBP & New model trained on calibration hospitals & 0.136 $\pm$ 0.007 & 17.199 $\pm$ 0.105 & -0.095 $\pm$ 0.416 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

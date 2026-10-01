@@ -1,0 +1,19 @@
+\begin{table}[t]
+\centering
+\scriptsize
+\caption{Recalibration: MIMIC-III model evaluated on held-out eICU hospitals (mean $\pm$ SD over hospital splits). ``None is evaluated on the held-out hospitals only, so it differs slightly from the full-eICU estimate.}
+\label{tab:recalibration_hypotension}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lllll}
+\toprule
+Target & Method & AUROC & O/E & Cal. slope \\
+\midrule
+Hypotension & None (MIMIC-III model as is) & 0.652 $\pm$ 0.003 & 0.809 $\pm$ 0.031 & 0.672 $\pm$ 0.017 \\
+Hypotension & Intercept (offset) only & 0.652 $\pm$ 0.003 & 0.959 $\pm$ 0.102 & 0.672 $\pm$ 0.017 \\
+Hypotension & Logistic (Platt) & 0.652 $\pm$ 0.003 & 0.981 $\pm$ 0.110 & 0.950 $\pm$ 0.069 \\
+Hypotension & Isotonic & 0.651 $\pm$ 0.003 & 0.981 $\pm$ 0.111 & 0.871 $\pm$ 0.066 \\
+Hypotension & New model trained on calibration hospitals & 0.681 $\pm$ 0.004 & 0.994 $\pm$ 0.089 & 0.814 $\pm$ 0.033 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

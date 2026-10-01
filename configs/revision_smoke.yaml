@@ -1,0 +1,13 @@
+# Fast offline test on SYNTHETIC data:  python -m revision.run_revision synthetic --config configs/revision_smoke.yaml
+cache_dir: smoke_test/cache
+output_dir: smoke_test/outputs
+n_jobs: 4
+allow_synthetic: true      # this config is for synthetic test data only
+analysis:
+  primary_model: xgb
+  models: [mean, persistence, ridge, xgb, ensemble]
+  cv_repeats: 2
+  n_bootstrap: 50
+  min_hospital_n: 40
+  n_calibration_splits: 2
+  sensitivity_max_rows: 1500

@@ -1,0 +1,20 @@
+\begin{table}[t]
+\centering
+\scriptsize
+\caption{Feature-set ablation, MAP $R^2$ [95\% CI], same patients for every set (complete case).}
+\label{tab:ablation_mbp_complete_case}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lrlll}
+\toprule
+Feature set & Features & MIMIC internal & eICU local & MIMIC$\rightarrow$eICU \\
+\midrule
+Vitals + labs + meds & 25 & 0.202 [0.191, 0.213] & 0.175 [0.156, 0.190] & 0.000 [-0.066, 0.053] \\
+Vitals + labs & 22 & 0.165 [0.155, 0.176] & 0.145 [0.129, 0.158] & -0.039 [-0.106, 0.015] \\
+Vitals + meds & 15 & 0.145 [0.134, 0.156] & 0.129 [0.109, 0.145] & -0.066 [-0.137, -0.010] \\
+Labs + meds & 15 & 0.190 [0.179, 0.201] & 0.137 [0.119, 0.150] & 0.002 [-0.061, 0.050] \\
+BP history only & 10 & 0.583 [0.572, 0.596] & 0.637 [0.619, 0.653] & 0.590 [0.574, 0.602] \\
+All + BP history & 33 & 0.597 [0.586, 0.609] & 0.640 [0.622, 0.656] & 0.590 [0.574, 0.602] \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

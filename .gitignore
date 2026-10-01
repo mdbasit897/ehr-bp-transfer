@@ -1,0 +1,14 @@
+# patient-level data: never commit (PhysioNet data use agreement)
+data_cache/
+results/predictions/
+results_fast/predictions/
+*.parquet
+*.zip
+
+# runs and scratch
+*.log
+smoke_test/
+results_fast/
+__pycache__/
+*.pyc
+.pytest_cache/

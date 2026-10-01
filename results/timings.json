@@ -1,0 +1,13 @@
+{
+  "cohort": 0.5,
+  "shift": 314.8,
+  "models_transfer": 16793.5,
+  "ladder": 88.2,
+  "decomposition": 279.1,
+  "hospitals": 24.3,
+  "ablation": 1091.6,
+  "recalibration": 12.4,
+  "domain_adaptation": 214.5,
+  "imputation": 19.7,
+  "modality_agreement": 1.1
+}

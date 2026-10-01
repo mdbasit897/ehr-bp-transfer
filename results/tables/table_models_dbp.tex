@@ -1,0 +1,21 @@
+\begin{table}[t]
+\centering
+\scriptsize
+\caption{DBP: $R^2$ [95\% CI] by model and validation setting.}
+\label{tab:models_dbp}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{llllll}
+\toprule
+Model & MIMIC internal & eICU local & eICU unseen hospitals & MIMIC$\rightarrow$eICU & eICU$\rightarrow$MIMIC \\
+\midrule
+Mean / prevalence & -0.000 [-0.000, 0.000] & -0.000 [-0.002, -0.000] & -0.000 [-0.002, 0.000] & -0.251 [-0.288, -0.221] & -0.247 [-0.265, -0.232] \\
+Persistence (last-window BP) & 0.521 [0.505, 0.537] & 0.508 [0.489, 0.525] & 0.508 [0.489, 0.525] & 0.507 [0.488, 0.525] & 0.465 [0.447, 0.483] \\
+Ridge / logistic & 0.244 [0.233, 0.255] & 0.180 [0.170, 0.189] & 0.175 [0.165, 0.186] & -0.052 [-0.092, -0.018] & 0.017 [-0.003, 0.034] \\
+Gradient boosting & 0.277 [0.265, 0.288] & 0.216 [0.205, 0.226] & 0.213 [0.202, 0.223] & -0.014 [-0.052, 0.018] & 0.047 [0.028, 0.063] \\
+Random forest & 0.256 [0.246, 0.267] & 0.200 [0.190, 0.210] & 0.200 [0.189, 0.210] & 0.005 [-0.030, 0.033] & 0.031 [0.012, 0.047] \\
+XGBoost & 0.279 [0.269, 0.291] & 0.219 [0.208, 0.229] & 0.213 [0.203, 0.224] & -0.005 [-0.042, 0.026] & 0.050 [0.032, 0.066] \\
+Stacked ensemble (submitted) & 0.280 [0.269, 0.291] & 0.218 [0.207, 0.229] & 0.215 [0.204, 0.226] & -0.005 [-0.043, 0.026] & 0.049 [0.030, 0.065] \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

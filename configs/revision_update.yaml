@@ -1,0 +1,24 @@
+# Partial rerun after the review audit (2026-09-28). Same data and settings as
+# revision.yaml; re-runs only the stages that changed and writes into the same output
+# folder. models_transfer, ladder and imputation results are unchanged and kept.
+#   python -m revision.run_revision analyze --config configs/revision_update.yaml
+project_id: null   # your GCP billing project (or set GOOGLE_CLOUD_PROJECT)
+cache_dir: data_cache
+output_dir: results
+
+analysis:
+  primary_model: xgb
+
+experiments:
+  cohort: true
+  shift: true               # linear (case-mix) + tree (artifact search) domain AUC
+  models_transfer: false
+  ladder: false
+  decomposition: true       # logistic density-ratio weights; tree weights as sensitivity
+  hospitals: true           # all targets; per-feature attribution
+  ablation: true            # all targets incl. hypotension with BP history
+  recalibration: true       # all targets incl. DBP/MAP offset
+  domain_adaptation: true   # logistic and tree weights
+  modality_agreement: true  # new: cuff minus arterial between databases
+  imputation: false
+  figures: true

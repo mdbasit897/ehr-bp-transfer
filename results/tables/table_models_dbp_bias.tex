@@ -1,0 +1,21 @@
+\begin{table}[t]
+\centering
+\scriptsize
+\caption{DBP: Bias (mmHg) [95\% CI] by model and validation setting.}
+\label{tab:models_dbp_bias}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{llllll}
+\toprule
+Model & MIMIC internal & eICU local & eICU unseen hospitals & MIMIC$\rightarrow$eICU & eICU$\rightarrow$MIMIC \\
+\midrule
+Mean / prevalence & 0.00 [-0.16, 0.17] & -0.00 [-0.43, 0.36] & 0.01 [-0.43, 0.37] & -5.77 [-6.21, -5.42] & 5.77 [5.62, 5.95] \\
+Persistence (last-window BP) & 0.16 [0.05, 0.28] & -0.85 [-0.97, -0.74] & -0.85 [-0.97, -0.74] & -0.91 [-1.04, -0.80] & 0.64 [0.53, 0.77] \\
+Ridge / logistic & 0.00 [-0.14, 0.16] & 0.00 [-0.36, 0.31] & 0.06 [-0.32, 0.40] & -4.99 [-5.41, -4.61] & 5.23 [5.09, 5.39] \\
+Gradient boosting & 0.02 [-0.11, 0.17] & 0.01 [-0.35, 0.33] & 0.06 [-0.31, 0.39] & -5.04 [-5.46, -4.69] & 5.28 [5.14, 5.43] \\
+Random forest & 0.06 [-0.08, 0.22] & 0.04 [-0.34, 0.37] & 0.05 [-0.33, 0.39] & -4.83 [-5.23, -4.48] & 5.24 [5.10, 5.40] \\
+XGBoost & 0.01 [-0.13, 0.16] & 0.00 [-0.36, 0.31] & 0.05 [-0.32, 0.38] & -5.00 [-5.42, -4.65] & 5.24 [5.10, 5.39] \\
+Stacked ensemble (submitted) & 0.00 [-0.13, 0.16] & 0.01 [-0.35, 0.33] & 0.06 [-0.31, 0.39] & -5.00 [-5.41, -4.65] & 5.27 [5.13, 5.42] \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

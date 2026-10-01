@@ -1,0 +1,3 @@
+n_icu_stays,n_patients,n_first_stay,n_age_eligible,n_los_eligible,n_sampled,dataset,n_extracted,n_with_target_sbp,n_analysed_sbp,n_with_target_dbp,n_analysed_dbp,n_with_target_mbp,n_analysed_mbp,n_with_target_hypotension,n_analysed_hypotension
+61522,46467,46467,36517,30944,30944,mimic,30944,17962,17962,17961,17961,17961,17961,17962,17962
+200859,139367,139367,133377,92720,92720,eicu,92720,74579,40000,74579,40000,74579,40000,74579,40000

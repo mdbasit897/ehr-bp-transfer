@@ -1,0 +1,21 @@
+\begin{table}[t]
+\centering
+\scriptsize
+\caption{MAP: RMSE (mmHg) [95\% CI] by model and validation setting.}
+\label{tab:models_mbp_rmse}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{llllll}
+\toprule
+Model & MIMIC internal & eICU local & eICU unseen hospitals & MIMIC$\rightarrow$eICU & eICU$\rightarrow$MIMIC \\
+\midrule
+Mean / prevalence & 11.58 [11.46, 11.71] & 13.27 [12.96, 13.61] & 13.28 [12.97, 13.63] & 14.39 [13.75, 15.06] & 12.86 [12.75, 12.98] \\
+Persistence (last-window BP) & 8.63 [8.50, 8.76] & 9.31 [9.12, 9.52] & 9.31 [9.12, 9.52] & 9.31 [9.11, 9.54] & 9.00 [8.86, 9.13] \\
+Ridge / logistic & 10.42 [10.31, 10.54] & 12.29 [12.03, 12.63] & 12.36 [12.08, 12.69] & 13.56 [12.95, 14.23] & 11.70 [11.60, 11.81] \\
+Gradient boosting & 10.29 [10.18, 10.40] & 12.06 [11.80, 12.37] & 12.15 [11.87, 12.46] & 13.48 [12.84, 14.18] & 11.59 [11.48, 11.69] \\
+Random forest & 10.41 [10.30, 10.53] & 12.22 [11.96, 12.53] & 12.27 [12.00, 12.59] & 13.46 [12.84, 14.13] & 11.72 [11.61, 11.83] \\
+XGBoost & 10.28 [10.17, 10.39] & 12.05 [11.79, 12.36] & 12.12 [11.84, 12.44] & 13.48 [12.84, 14.17] & 11.58 [11.48, 11.69] \\
+Stacked ensemble (submitted) & 10.27 [10.16, 10.39] & 12.04 [11.79, 12.36] & 12.13 [11.85, 12.44] & 13.46 [12.81, 14.15] & 11.58 [11.48, 11.69] \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

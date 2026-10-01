@@ -1,0 +1,21 @@
+\begin{table}[t]
+\centering
+\scriptsize
+\caption{Hypotension: Cal. slope [95\% CI] by model and validation setting.}
+\label{tab:models_hypotension_cal_slope}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{llllll}
+\toprule
+Model & MIMIC internal & eICU local & eICU unseen hospitals & MIMIC$\rightarrow$eICU & eICU$\rightarrow$MIMIC \\
+\midrule
+Mean / prevalence & -- & -- & -- & -- & -- \\
+Persistence (last-window BP) & 1.00 [0.96, 1.04] & 1.00 [0.97, 1.04] & 1.00 [0.96, 1.04] & 1.00 [0.96, 1.04] & 0.98 [0.94, 1.02] \\
+Ridge / logistic & 0.97 [0.93, 1.02] & 0.98 [0.93, 1.03] & 0.94 [0.88, 1.00] & 0.61 [0.51, 0.71] & 1.00 [0.95, 1.05] \\
+Gradient boosting & 0.92 [0.88, 0.96] & 0.98 [0.93, 1.02] & 0.94 [0.88, 0.99] & 0.69 [0.65, 0.75] & 0.92 [0.87, 0.96] \\
+Random forest & 1.33 [1.27, 1.39] & 1.46 [1.39, 1.53] & 1.41 [1.33, 1.49] & 1.14 [1.07, 1.22] & 1.41 [1.34, 1.48] \\
+XGBoost & 0.91 [0.87, 0.94] & 0.98 [0.94, 1.03] & 0.93 [0.88, 0.98] & 0.68 [0.64, 0.73] & 0.92 [0.88, 0.97] \\
+Stacked ensemble (submitted) & 0.98 [0.94, 1.02] & 1.04 [0.99, 1.08] & 1.00 [0.94, 1.05] & 0.76 [0.70, 0.82] & 0.97 [0.92, 1.02] \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

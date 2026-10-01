@@ -1,0 +1,33 @@
+# Revision pipeline configuration. Anything not set here uses revision/config.py DEFAULTS.
+
+project_id: null   # your GCP billing project (or set GOOGLE_CLOUD_PROJECT)
+cache_dir: data_cache       # BigQuery extracts (parquet). Contains patient data: keep out of git.
+output_dir: results
+seed: 42
+n_jobs: -1
+
+extraction:
+  obs_hours: 24             # features from the first 24 h in ICU (index time = 24 h)
+  horizon_start_hours: 24   # predict BP during hours 24-48
+  horizon_end_hours: 48
+  lab_lookback_hours: 6
+  hypotension_map: 65
+  sample_permille: 1000     # 1000 = full cohort; e.g. 100 = deterministic 10% for a dry run
+
+analysis:
+  design: prospective
+  target_modality: {mimic: ni, eicu: ni}   # cuff vs cuff
+  min_target_hours: 4
+  min_hypo_hours: 2
+  max_rows: 40000           # per dataset, deterministic; set null to use everyone
+  targets: [sbp, dbp, mbp, hypotension]
+  primary_target: sbp
+  primary_feature_set: no_bp_core_meds
+  # The submitted stacked ensemble is ~50x slower than XGBoost. It is still evaluated
+  # in the model comparison (models_transfer); the other analyses use primary_model.
+  primary_model: xgb
+  models: [mean, persistence, ridge, gb, rf, xgb, ensemble]
+  cv_folds: 5
+  cv_repeats: 3
+  n_bootstrap: 1000
+  min_hospital_n: 100

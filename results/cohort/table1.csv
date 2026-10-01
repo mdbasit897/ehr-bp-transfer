@@ -1,0 +1,15 @@
+characteristic,MIMIC-III,eICU
+ICU stays (first per patient),"17,962","40,000"
+Hospitals,1,201
+"Age, years",62.3 (16.8),63.1 (16.3)
+"Female, %",42.9,45.4
+"ICU LOS, hours",58.3 [43.2-96.2],62.0 [43.2-100.7]
+"SBP target (ni), mmHg",120.3 (17.5),123.5 (18.5)
+"DBP target (ni), mmHg",60.9 (11.6),66.7 (11.5)
+"MAP target (ni), mmHg",77.4 (11.6),83.0 (13.3)
+"Arterial line in obs. window, %",37.8,23.4
+"Cuff BP in obs. window, %",91.6,98.9
+"Vasopressor in obs. window, %",26.0,16.4
+"Hypotension in target window, %",43.1,33.9
+"Median missingness, vitals, %",0.1,1.1
+"Median missingness, labs, %",0.8,4.0

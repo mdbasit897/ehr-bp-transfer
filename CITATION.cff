@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this code or these results, please cite the paper."
+title: "When Validation Fails for the Wrong Reasons: Data Harmonization, Measurement Differences, and Cross-Institutional Transfer of EHR-Based Blood Pressure Models"
+authors:
+  - family-names: Azam
+    given-names: Md Basit
+    affiliation: Tezpur University
+  - family-names: Singh
+    given-names: Sarangthem Ibotombi
+    affiliation: Tezpur University
+repository-code: "https://github.com/mdbasit897/ehr-bp-transfer"
+license: MIT
+identifiers:
+  - type: other
+    value: "arXiv:2507.19530"
+    description: "Preliminary version (superseded)"

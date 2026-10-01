@@ -1,0 +1,20 @@
+\begin{table}[t]
+\centering
+\scriptsize
+\caption{Feature-set ablation, DBP $R^2$ [95\% CI], same patients for every set (all).}
+\label{tab:ablation_dbp_all}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lrlll}
+\toprule
+Feature set & Features & MIMIC internal & eICU local & MIMIC$\rightarrow$eICU \\
+\midrule
+Vitals + labs + meds & 25 & 0.279 [0.269, 0.291] & 0.219 [0.208, 0.229] & -0.005 [-0.042, 0.026] \\
+Vitals + labs & 22 & 0.258 [0.247, 0.268] & 0.199 [0.189, 0.209] & -0.047 [-0.087, -0.011] \\
+Vitals + meds & 15 & 0.219 [0.208, 0.230] & 0.165 [0.154, 0.176] & -0.081 [-0.122, -0.047] \\
+Labs + meds & 15 & 0.245 [0.233, 0.256] & 0.198 [0.187, 0.208] & -0.026 [-0.060, 0.002] \\
+BP history only & 10 & 0.634 [0.624, 0.644] & 0.631 [0.619, 0.643] & 0.593 [0.578, 0.606] \\
+All + BP history & 33 & 0.648 [0.638, 0.657] & 0.636 [0.624, 0.647] & 0.592 [0.578, 0.604] \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

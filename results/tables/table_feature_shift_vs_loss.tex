@@ -1,0 +1,34 @@
+\begin{table}[t]
+\centering
+\scriptsize
+\caption{Hospital-level association between each feature's shift from MIMIC-III (standardised mean difference) and the MIMIC-III model's error in that hospital; top five per target, Benjamini-Hochberg q-values.}
+\label{tab:feature_shift_vs_loss}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lllll}
+\toprule
+Target & Feature & Outcome & Spearman $\rho$ & $q$ (BH) \\
+\midrule
+MAP & Resp. rate, SD & Bias & -0.69 & 0.000 \\
+SBP & Resp. rate, mean & Bias & -0.52 & 0.000 \\
+MAP & Resp. rate, mean & Bias & -0.51 & 0.000 \\
+DBP & Resp. rate, SD & Bias & -0.51 & 0.000 \\
+SBP & Resp. rate, SD & Bias & -0.50 & 0.000 \\
+DBP & Resp. rate, mean & Bias & -0.38 & 0.001 \\
+MAP & IV diuretic & Bias & -0.34 & 0.003 \\
+SBP & IV diuretic & Bias & -0.29 & 0.021 \\
+SBP & Temperature, mean & Bias & 0.28 & 0.030 \\
+MAP & Temperature, mean & Bias & 0.27 & 0.030 \\
+DBP & Temperature, max & Bias & 0.27 & 0.050 \\
+MAP & Temperature, max & Bias & 0.27 & 0.030 \\
+DBP & Creatinine & Bias & -0.24 & 0.069 \\
+DBP & Temperature, mean & Bias & 0.24 & 0.069 \\
+SBP & IV antihypertensive & Bias & -0.22 & 0.119 \\
+Hypotension & SpO2, mean & $\Delta$AUROC & -0.16 & 0.988 \\
+Hypotension & Bicarbonate & $\Delta$AUROC & 0.14 & 0.988 \\
+Hypotension & Heart rate, min & $\Delta$AUROC & -0.13 & 0.988 \\
+Hypotension & Creatinine & $\Delta$AUROC & -0.13 & 0.988 \\
+Hypotension & Heart rate, mean & $\Delta$AUROC & -0.13 & 0.988 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

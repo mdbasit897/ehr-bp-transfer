@@ -1,0 +1,22 @@
+\begin{table}[t]
+\centering
+\scriptsize
+\caption{Decomposition of the MIMIC-III$\rightarrow$eICU gap, Hypotension (tree density-ratio weights).}
+\label{tab:decomposition_hypotension_tree}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lll}
+\toprule
+Setting / component & AUROC & O/E \\
+\midrule
+MIMIC-III internal & 0.698 [0.691, 0.706] & 1.000 [0.985, 1.016] \\
+MIMIC-III reweighted to eICU case-mix & 0.706 [0.691, 0.722] & 1.035 [1.006, 1.068] \\
+MIMIC-III $\rightarrow$ eICU (observed) & 0.655 [0.643, 0.665] & 0.819 [0.742, 0.886] \\
+eICU local (reference) & 0.699 [0.690, 0.708] & 1.002 [0.935, 1.059] \\
+$\Delta$ case-mix (covariate shift) & 0.008 [-0.005, 0.023] & 0.035 [0.008, 0.064] \\
+$\Delta$ feature--BP relationship & -0.052 [-0.071, -0.034] & -0.216 [-0.297, -0.144] \\
+Total gap (observed $-$ internal) & -0.044 [-0.056, -0.031] & -0.181 [-0.259, -0.114] \\
+Transfer loss (observed $-$ local) & -0.045 [-0.055, -0.034] & -0.183 [-0.198, -0.166] \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

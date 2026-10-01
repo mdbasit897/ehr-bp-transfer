@@ -1,0 +1,20 @@
+\begin{table}[t]
+\centering
+\scriptsize
+\caption{Feature-set ablation, Hypotension AUROC [95\% CI], same patients for every set (complete case).}
+\label{tab:ablation_hypotension_complete_case}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lrlll}
+\toprule
+Feature set & Features & MIMIC internal & eICU local & MIMIC$\rightarrow$eICU \\
+\midrule
+Vitals + labs + meds & 25 & 0.697 [0.690, 0.705] & 0.694 [0.685, 0.703] & 0.660 [0.647, 0.671] \\
+Vitals + labs & 22 & 0.675 [0.667, 0.683] & 0.683 [0.673, 0.691] & 0.636 [0.625, 0.646] \\
+Vitals + meds & 15 & 0.677 [0.669, 0.685] & 0.675 [0.664, 0.685] & 0.640 [0.628, 0.651] \\
+Labs + meds & 15 & 0.692 [0.684, 0.700] & 0.673 [0.662, 0.682] & 0.660 [0.648, 0.671] \\
+BP history only & 10 & 0.824 [0.818, 0.830] & 0.849 [0.841, 0.857] & 0.840 [0.833, 0.846] \\
+All + BP history & 33 & 0.832 [0.827, 0.838] & 0.851 [0.843, 0.858] & 0.837 [0.831, 0.844] \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

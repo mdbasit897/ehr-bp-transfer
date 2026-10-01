@@ -1,0 +1,23 @@
+\begin{table}[t]
+\centering
+\scriptsize
+\caption{Domain adaptation: MIMIC-III model evaluated on held-out eICU hospitals (mean $\pm$ SD over hospital splits). ``None is evaluated on the held-out hospitals only, so it differs slightly from the full-eICU estimate.}
+\label{tab:domain_adaptation_bp}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lllll}
+\toprule
+Target & Method & $R^2$ & RMSE (mmHg) & Bias (mmHg) \\
+\midrule
+DBP & Unweighted & -0.011 $\pm$ 0.015 & 11.581 $\pm$ 0.075 & -5.031 $\pm$ 0.132 \\
+DBP & Importance-weighted (logistic weights) & -0.024 $\pm$ 0.017 & 11.655 $\pm$ 0.085 & -5.073 $\pm$ 0.175 \\
+DBP & Importance-weighted (tree weights, sensitivity) & -0.007 $\pm$ 0.013 & 11.557 $\pm$ 0.074 & -4.674 $\pm$ 0.126 \\
+MAP & Unweighted & -0.045 $\pm$ 0.024 & 13.604 $\pm$ 0.225 & -4.874 $\pm$ 0.416 \\
+MAP & Importance-weighted (logistic weights) & -0.047 $\pm$ 0.023 & 13.614 $\pm$ 0.203 & -4.722 $\pm$ 0.396 \\
+MAP & Importance-weighted (tree weights, sensitivity) & -0.089 $\pm$ 0.032 & 13.888 $\pm$ 0.265 & -5.245 $\pm$ 0.447 \\
+SBP & Unweighted & 0.109 $\pm$ 0.004 & 17.465 $\pm$ 0.114 & -2.093 $\pm$ 0.169 \\
+SBP & Importance-weighted (logistic weights) & 0.096 $\pm$ 0.005 & 17.590 $\pm$ 0.133 & -1.888 $\pm$ 0.148 \\
+SBP & Importance-weighted (tree weights, sensitivity) & 0.061 $\pm$ 0.010 & 17.924 $\pm$ 0.195 & -2.504 $\pm$ 0.278 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
