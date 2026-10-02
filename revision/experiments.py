@@ -1,6 +1,6 @@
 """All revision experiments. Each method writes CSVs under output_dir/<experiment>/.
 
-Reviewer comment -> experiment
+Design requirement (docs/PIPELINE_NOTES.md) -> experiment
   R1.1  fixed cohort across feature sets ..................... ablation()
   R1.2  train/evaluate locally in eICU ........................ models_transfer(), ladder()
   R1.3  consistent cohort numbers / unit of analysis .......... cohort()

@@ -1,6 +1,6 @@
 """Revised MIMIC-III -> eICU blood pressure transfer pipeline.
 
-The original submission pipeline (``cross_institutional_bp_validation.py``) is kept
-unchanged so the submitted numbers remain reproducible. This package implements the
-revision; see ``REVISION_CHANGES.md`` for the mapping from reviewer comments to code.
+This package replaces an earlier pipeline whose results correspond to ladder step S0.
+See ``docs/PIPELINE_NOTES.md`` for the corrections made and for the design requirements
+(R1.1, R2.4, ...) referred to in code comments.
 """

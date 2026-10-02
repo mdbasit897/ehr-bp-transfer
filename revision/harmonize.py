@@ -1,6 +1,6 @@
 """Cleaning, data-quality checks and construction of analysis tables.
 
-Key rules (reviewer comments in brackets):
+Key rules (design requirements from docs/PIPELINE_NOTES.md in brackets):
 - Unit of analysis = first ICU stay per patient; grouping variable = patient [R1.3].
 - Rows are defined ONLY by target availability, never by feature availability, so
   every feature set is evaluated on the same patients [R1.1].

@@ -1,17 +1,20 @@
-# When Validation Fails for the Wrong Reasons
+# Separating Harmonization Artifacts, Measurement Differences and Transfer Loss
 
 Code and aggregate results for:
 
-> Azam MB, Singh SI. **When Validation Fails for the Wrong Reasons: Data Harmonization,
-> Measurement Differences, and Cross-Institutional Transfer of EHR-Based Blood Pressure Models.**
-> Manuscript under review. Preliminary version: arXiv:2507.19530 (superseded; see `legacy/`).
+> Azam MB, Singh SI. **Separating Harmonization Artifacts, Measurement Differences and
+> Transfer Loss in External Validation of ICU Blood Pressure Models.** Manuscript under review.
 
-A blood pressure (BP) model trained on MIMIC-III appeared to fail completely in the eICU
-database (external R² = −0.024). This repository shows, step by step, that the failure was
-mostly produced by data extraction and harmonization, and that the remaining loss has
-identifiable causes. The most important cause is a cuff-pressure measurement offset between
-the databases: eICU cuff diastolic pressure reads 5.4 mmHg higher relative to the arterial
-line, which matches the −5.0 mmHg transfer bias.
+External validation of clinical prediction models often attributes performance loss to
+differences between institutions. Using blood pressure (BP) prediction from MIMIC-III to the
+eICU Collaborative Research Database, this repository separates three sources of loss:
+errors in how data are extracted and harmonized, differences in how BP is measured, and
+genuine differences between institutions. A harmonization ladder changes one analysis choice
+at a time; the transfer gap is decomposed into case-mix and feature–outcome components and
+examined across 103 eICU hospitals. The main finding is a cuff-pressure measurement offset:
+relative to the arterial line, eICU cuff diastolic pressure reads 5.4 mm Hg higher than in
+MIMIC-III, which matches the −5.0 mm Hg transfer bias of the MIMIC-III model and is removed by
+one-parameter recalibration.
 
 ## Repository contents
 
@@ -21,12 +24,12 @@ line, which matches the −5.0 mmHg transfer bias.
 | `configs/` | Run configurations (`revision.yaml` = main analysis) |
 | `tests/` | Unit tests (12) |
 | `results/` | Aggregate outputs of the final run: every number, table and figure in the paper |
-| `docs/REVISION_CHANGES.md` | Errors found in the preliminary pipeline, and how each reviewer comment was addressed |
-| `legacy/` | Preliminary analysis (arXiv v1), superseded, kept for transparency |
+| `docs/PIPELINE_NOTES.md` | Corrections made to an earlier version of the pipeline, and the design requirements referred to in code comments |
 
 **No patient-level data or predictions are included.** MIMIC-III and eICU are
-credentialed-access datasets. `results/` contains only aggregate statistics; hospital-level
-results are shown without hospital identifiers or characteristics.
+credentialed-access datasets. `results/` contains only aggregate statistics. Per-hospital
+results carry no hospital identifiers, and hospital characteristics appear only as group
+aggregates.
 
 ## Data access
 
@@ -52,51 +55,59 @@ python -m revision.run_revision extract                # BigQuery -> data_cache/
 python -m revision.run_revision analyze                # -> results/ (about 5-6 h; most of it is the stacked ensemble)
 
 # figures and LaTeX tables only, from the CSVs in results/ (no data needed;
-# the calibration figure, Fig. S2, needs the patient-level predictions and is not regenerated)
+# the calibration figure, Supplementary Fig. S1, needs the patient-level predictions and is not regenerated)
 python -m revision.run_revision report
 ```
 
 `configs/revision_fast.yaml` skips the stacked ensemble (under an hour);
-`configs/revision_update.yaml` reruns only the stages added after the review audit.
+`configs/revision_update.yaml` reruns only the stages added in the final audit.
 Each run writes `results/run_manifest_<timestamp>.json` with the code version,
 configuration and package versions.
 
-Published results were produced with Python 3.8, numpy 1.24.4, pandas 2.0.3,
-scikit-learn 1.3.2 and xgboost 2.1.4 (see `results/run_manifest.json`).
+Published results were produced with Python 3.8.10, NumPy 1.24.4, pandas 2.0.3,
+scikit-learn 1.3.2 and XGBoost 2.1.4 (see `results/run_manifest.json`).
 
 ## Study design
 
-- **Cohort:** first ICU stay per patient, age 18–89, still in the ICU at 24 h;
-  MIMIC-III 17,962 stays, eICU 40,000 stays from 201 hospitals.
-- **Task:** at 24 h after ICU admission, forecast mean cuff SBP, DBP and MAP and
-  hypotension (≥2 hourly MAP values < 65 mmHg) during hours 24–48, from vital signs,
-  laboratory values, medications and (optionally) BP history recorded in hours 0–24.
+- **Cohort:** first ICU stay per patient, age 18–89, still in the ICU at 24 h, at least four
+  hourly cuff BP values in hours 24–48; MIMIC-III 17,962 stays, eICU 40,000 stays from 201 hospitals.
+- **Task:** at 24 h after ICU admission, forecast mean cuff systolic, diastolic and mean
+  arterial pressure (SBP, DBP, MAP) and hypotension (≥2 hourly MAP values < 65 mm Hg) during
+  hours 24–48, from vital signs, laboratory values, medications and (optionally) BP history
+  recorded in hours 0–24.
 - **Validation:** MIMIC-III internal, eICU local, eICU unseen hospitals, MIMIC-III→eICU and
   eICU→MIMIC-III, with 95% cluster-bootstrap confidence intervals.
 
 ## Where each result comes from
 
-| Paper | File in `results/` |
+All paths are relative to `results/`.
+
+| Paper | Source |
 |---|---|
-| Table 1 (cohort) | `cohort/table1.csv`, `cohort/flow.csv` |
-| Table 2 (harmonization ladder) | `ladder/ladder_metrics.csv` |
-| Table 3 (model comparison) | `models_transfer/metrics_ci.csv`, `models_transfer/paired_differences.csv` |
-| Table 4 (gap decomposition) | `decomposition/gap_decomposition.csv` (`weights = linear`) |
-| Table 5 (cuff vs arterial) | `modality_agreement/cuff_vs_arterial.csv` |
-| Table 6 (recalibration) | `recalibration/summary.csv` |
-| Table 7 (hospital random effects) | `hospitals/random_effects.csv` |
-| Table 8 (feature attribution) | `hospitals/feature_shift_vs_loss.csv` |
-| Table 9 (feature-set ablation) | `ablation/feature_set_ablation.csv` |
-| Tables S1–S3 | `models_transfer/metrics_ci.csv` |
-| Table S4 (tree-weight decomposition) | `decomposition/gap_decomposition.csv` (`weights = tree`) |
-| Table S5 (importance weighting) | `domain_adaptation/summary.csv` |
-| Table S6 (domain separability) | `shift/domain_auc_leave_one_out.csv` |
-| Table S7 (complete cases) | `ablation/feature_set_ablation.csv` (`cohort = complete_case`) |
-| Table S8 (imputation) | `imputation/imputation_sensitivity.csv` |
-| Figures 2–8, S1–S3 | `figures/*.pdf` (Figure 1 is drawn in LaTeX) |
-| LaTeX tables and figure captions | `tables/*.tex`, `figures/figures.tex` |
+| Table 1 (cohort characteristics) | `cohort/table1.csv` |
+| Table 2 (gap decomposition) | `decomposition/gap_decomposition.csv` (`weights = linear`), `decomposition/weights_info.csv` |
+| Table 3 (cuff minus arterial pressure) | `modality_agreement/cuff_vs_arterial.csv`; transfer bias from `models_transfer/metrics_ci.csv` |
+| Table 4 (recalibration) | `recalibration/summary.csv` |
+| Figure 1 (cohort flow) | `figures/fig_cohort_flow.pdf`, `cohort/flow.csv` |
+| Figure 2 (prediction task) | Schematic, not generated by the pipeline |
+| Figure 3 (harmonization ladder) | `figures/fig_harmonization_ladder.pdf`, `ladder/ladder_metrics.csv` |
+| Figure 4 (model comparison) | `figures/fig_models_transfer.pdf`, `models_transfer/metrics_ci.csv` |
+| Figure 5 (hospital-level SBP) | `figures/fig_hospitals_sbp.pdf`, `hospitals/per_hospital.csv`, `hospitals/random_effects.csv` |
+| Figure 6 (feature-set ablation) | `figures/fig_feature_ablation.pdf`, `ablation/feature_set_ablation.csv` |
+| Supplementary Table S1 (ladder) | `ladder/ladder_metrics.csv` |
+| Supplementary Tables S2–S5 (models; hypotension calibration; DBP and MAP; RMSE and bias) | `models_transfer/metrics_ci.csv`, `models_transfer/paired_differences.csv` |
+| Supplementary Table S6 (domain separability) | `shift/domain_auc_leave_one_out.csv` |
+| Supplementary Table S7 (tree-weight decomposition) | `decomposition/gap_decomposition.csv` (`weights = tree`) |
+| Supplementary Table S8 (importance weighting) | `domain_adaptation/summary.csv` |
+| Supplementary Table S9 (hospital random effects) | `hospitals/random_effects.csv` |
+| Supplementary Table S10 (feature attribution) | `hospitals/feature_shift_vs_loss.csv` |
+| Supplementary Tables S11–S12 (ablation; complete cases) | `ablation/feature_set_ablation.csv` (`cohort = all` / `complete_case`) |
+| Supplementary Table S13 (imputation) | `imputation/imputation_sensitivity.csv` |
+| Supplementary Figures S1–S5 | `figures/fig_calibration_sbp_xgb.pdf`, `fig_feature_shift.pdf`, `fig_gap_decomposition_sbp.pdf`, `fig_modality_agreement.pdf`, `fig_hospitals_dbp.pdf` |
 
 Data-quality checks are in `cohort/data_quality.csv` and `cohort/cross_dataset_checks.csv`.
+`tables/*.tex` and `figures/figures.tex` are the pipeline's own LaTeX output; their
+numbering and labels predate the journal layout, but every value matches the CSVs.
 
 ## Citation
 
