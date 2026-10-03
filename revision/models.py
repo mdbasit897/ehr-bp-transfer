@@ -1,4 +1,4 @@
-"""Model zoo: simple baselines, individual learners and the submitted ensemble (R2.4).
+"""Model zoo: simple baselines, individual learners and the submitted ensemble.
 
 All preprocessing (imputation, scaling) lives inside the estimator so it is fitted on
 training folds only and re-used unchanged on external data.

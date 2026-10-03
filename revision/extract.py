@@ -1,8 +1,4 @@
 """Run the extraction queries on BigQuery and cache the results as parquet.
-
-Analysis always reads from the cache, so it can be re-run (and tested on synthetic
-data) without BigQuery. The exact SQL and parameters are saved next to each cache
-file for reproducibility.
 """
 
 import hashlib

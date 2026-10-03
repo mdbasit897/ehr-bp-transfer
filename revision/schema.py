@@ -2,7 +2,6 @@
 
 Every feature list, item ID, unit conversion and plausibility range used anywhere in
 the revision is defined here, so the paper, the SQL and the models cannot disagree
-(requirements R1.3 / R2.5 in docs/PIPELINE_NOTES.md: consistent feature counts).
 """
 
 # ---------------------------------------------------------------------------

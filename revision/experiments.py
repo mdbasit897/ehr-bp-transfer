@@ -1,15 +1,15 @@
-"""All revision experiments. Each method writes CSVs under output_dir/<experiment>/.
+"""All revised experiments. Each method writes CSVs under output_dir/<experiment>/.
 
-Design requirement (docs/PIPELINE_NOTES.md) -> experiment
-  R1.1  fixed cohort across feature sets ..................... ablation()
-  R1.2  train/evaluate locally in eICU ........................ models_transfer(), ladder()
-  R1.3  consistent cohort numbers / unit of analysis .......... cohort()
-  R1.4  explicit temporal task ................................ config 'design', ladder()
-  R2.3/R4  clinically meaningful task (hypotension forecast) .. target 'hypotension'
-  R2.4  simple baselines, single learners, uncertainty ........ models_transfer()
-  R3    'fundamental barriers' not demonstrated ............... decomposition(), shift()
-  R3    eICU is multi-centre -> per-site analysis ............. hospitals()
-  R3    measurement explanation demonstrated, not asserted .... modality_agreement(),
+Design requirement -> experiment
+    fixed cohort across feature sets ..................... ablation()
+    train/evaluate locally in eICU ........................ models_transfer(), ladder()
+    consistent cohort numbers / unit of analysis .......... cohort()
+    explicit temporal task ................................ config 'design', ladder()
+    clinically meaningful task (hypotension forecast) .. target 'hypotension'
+    simple baselines, single learners, uncertainty ........ models_transfer()
+    'fundamental barriers' not demonstrated ............... decomposition(), shift()
+    eICU is multi-centre -> per-site analysis ............. hospitals()
+    measurement explanation demonstrated, not asserted .... modality_agreement(),
                                                                 hospitals() feature attribution
   (fix) recalibration / domain adaptation compared fairly ..... recalibration(),
                                                                 domain_adaptation()
@@ -126,7 +126,7 @@ class Runner:
 
     # ----------------------------------------------------------------- cohort
     def cohort(self):
-        """R1.3: one unit of analysis, full flow counts, data-quality checks, Table 1."""
+        """one unit of analysis, full flow counts, data-quality checks, Table 1."""
         a = self.a
         flows, quality = [], []
         for ds, df in self.data.items():
@@ -214,7 +214,7 @@ class Runner:
 
     # ------------------------------------------------------- models/transfer
     def models_transfer(self):
-        """R1.2 + R2.4: every model, internal / local / external / reverse, with CIs."""
+        """every model, internal / local / external / reverse, with CIs."""
         a = self.a
         all_rows, paired_rows, ci_rows = [], [], []
         pred_dir = self.out / 'predictions'
@@ -328,7 +328,7 @@ class Runner:
 
     # -------------------------------------------------------------- hospitals
     def hospitals(self, model=None):
-        """R3: eICU is multi-centre, so evaluate per hospital and relate performance
+        """eICU is multi-centre, so evaluate per hospital and relate performance
         loss to measured shift instead of asserting it."""
         a = self.a
         model = model or a['primary_model']
@@ -428,7 +428,7 @@ class Runner:
 
     # --------------------------------------------------------------- ablation
     def ablation(self, model=None):
-        """R1.1: every feature set on the SAME patients (rows depend on target only),
+        """every feature set on the SAME patients (rows depend on target only),
         plus a complete-case sensitivity analysis on one fixed complete-case subset."""
         a = self.a
         model = model or a['primary_model']
@@ -550,14 +550,6 @@ class Runner:
 
     # ------------------------------------------------------ modality agreement
     def modality_agreement(self):
-        """Is the eICU cuff-BP offset a measurement difference? (R3)
-
-        In stays with BOTH cuff and arterial BP during the observation window, compare
-        cuff minus arterial between the databases. Arterial pressures agree across the
-        databases (ladder S2), so a between-database difference in cuff-minus-arterial
-        points to how cuff pressure is measured or charted, not to the patients.
-        Window means, not time-matched pairs: the comparison is within-patient but not
-        within-minute."""
         a = self.a
         rows, diffs = [], {}
         for ds, df in self.data.items():

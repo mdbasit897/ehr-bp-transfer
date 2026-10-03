@@ -1,5 +1,4 @@
-"""Quantifying dataset shift and attributing the transfer gap (R3: 'the proposed
-explanations are interpretations, not demonstrated').
+"""Quantifying dataset shift and attributing the transfer gap.
 
 - Standardised mean differences (scale-free; the submitted Wasserstein distances were
   in raw units, so large-unit features dominated).

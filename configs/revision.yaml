@@ -1,4 +1,4 @@
-# Revision pipeline configuration. Anything not set here uses revision/config.py DEFAULTS.
+# Revised pipeline configuration. Anything not set here uses revision/config.py DEFAULTS.
 
 project_id: null   # your GCP billing project (or set GOOGLE_CLOUD_PROJECT)
 cache_dir: data_cache       # BigQuery extracts (parquet). Contains patient data: keep out of git.

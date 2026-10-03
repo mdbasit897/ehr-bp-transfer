@@ -1,7 +1,5 @@
 """Metrics, grouped cross-validation and (cluster) bootstrap confidence intervals.
 
-Addresses R2.4 / R3 (no uncertainty) and R1.3 (the submitted version used a single
-random 80/20 split although the paper described grouped 5-fold CV).
 """
 
 import numpy as np

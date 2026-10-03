@@ -1,10 +1,10 @@
 """Cleaning, data-quality checks and construction of analysis tables.
 
-Key rules (design requirements from docs/PIPELINE_NOTES.md in brackets):
-- Unit of analysis = first ICU stay per patient; grouping variable = patient [R1.3].
+Key rules:
+- Unit of analysis = first ICU stay per patient; grouping variable = patient .
 - Rows are defined ONLY by target availability, never by feature availability, so
-  every feature set is evaluated on the same patients [R1.1].
-- BP-history features are refused in the concurrent design (would be leakage) [R1.4].
+  every feature set is evaluated on the same patients .
+- BP-history features are refused in the concurrent design (would be leakage).
 """
 
 import logging

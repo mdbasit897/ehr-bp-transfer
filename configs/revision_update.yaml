@@ -1,4 +1,3 @@
-# Partial rerun after the review audit (2026-09-28). Same data and settings as
 # revision.yaml; re-runs only the stages that changed and writes into the same output
 # folder. models_transfer, ladder and imputation results are unchanged and kept.
 #   python -m revision.run_revision analyze --config configs/revision_update.yaml

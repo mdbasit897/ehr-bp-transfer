@@ -3,7 +3,9 @@
 Code and aggregate results for:
 
 > Azam MB, Singh SI. **Separating Harmonization Artifacts, Measurement Differences and
-> Transfer Loss in External Validation of ICU Blood Pressure Models.** Manuscript under review.
+> Transfer Loss in External Validation of ICU Blood Pressure Models.** 
+
+[//]: # (> Manuscript under review.)
 
 External validation of clinical prediction models often attributes performance loss to
 differences between institutions. Using blood pressure (BP) prediction from MIMIC-III to the

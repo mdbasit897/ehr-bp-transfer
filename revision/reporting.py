@@ -1,7 +1,7 @@
 """Publication figures and LaTeX tables, generated only from saved result CSVs.
 
 Every number in the revised manuscript should be pasted from tables/*.tex so that the
-text, tables and code cannot disagree again (R1.3, R1.5, R2.5).
+text, tables and code cannot disagree again.
 """
 
 import logging
