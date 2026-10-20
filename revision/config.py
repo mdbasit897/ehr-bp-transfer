@@ -82,7 +82,20 @@ DEFAULTS = {
         'domain_adaptation': True,
         'modality_agreement': True,    # cuff minus arterial BP, compared between databases
         'imputation': True,
+        # final-audit additions (off unless a config turns them on)
+        'bp_history_models': False,    # 'All + BP history' model in all five settings
+        'modality_by_system': False,   # MIMIC-III CareVue vs MetaVision
+        'table1_outcomes': False,      # hospital mortality + severity (needs 'outcomes' extract)
         'figures': True,
+    },
+
+    # Table 1 outcomes ('outcomes' command). Severity scores are database-specific.
+    'outcomes': {
+        'mimic': {'name': 'SAPS II', 'table': 'physionet-data.mimiciii_derived.sapsii',
+                  'id': 'icustay_id', 'column': 'sapsii'},
+        'eicu': {'name': 'APACHE IV', 'table': 'physionet-data.eicu_crd.apachepatientresult',
+                 'id': 'patientunitstayid', 'column': 'apachescore',
+                 'where': "apacheversion = 'IVa' AND apachescore >= 0"},
     },
 }
 

@@ -79,6 +79,43 @@ def extract(cfg, datasets=DATASETS, force=False):
         log.info('%s: %d rows -> %s', ds, len(df), paths['data'])
 
 
+def outcome_path(cfg, dataset):
+    return Path(cfg['cache_dir']) / f'{dataset}_outcomes.parquet'
+
+
+def extract_outcomes(cfg, datasets=DATASETS, force=False):
+    """Hospital mortality and a database-specific severity score for Table 1. Kept out of
+    the feature query so that the existing feature cache stays valid."""
+    from google.cloud import bigquery
+    project = cfg.get('project_id') or os.environ.get('GOOGLE_CLOUD_PROJECT')
+    if not project:
+        raise ValueError('Set project_id in the config or GOOGLE_CLOUD_PROJECT')
+    client = bigquery.Client(project=project)
+    for ds in datasets:
+        p = outcome_path(cfg, ds)
+        if p.exists() and not force:
+            log.info('%s: outcomes cached (%s), skipping', ds, p)
+            continue
+        log.info('%s: running outcome query', ds)
+        df = _run(client, sql.outcome_query(ds), {})
+        spec = cfg['outcomes'][ds]
+        try:
+            sev = _run(client, sql.severity_query(spec), {})
+            df = df.merge(sev, on='stay_id', how='left')
+            df['severity_name'] = spec['name']
+        except Exception as e:   # derived tables differ between BigQuery projects
+            log.error('%s: severity query on %s failed (%s); saving mortality only',
+                      ds, spec['table'], e)
+        df['stay_id'] = df['stay_id'].astype('int64')
+        df.to_parquet(p, index=False)
+        log.info('%s: %d rows -> %s', ds, len(df), p)
+
+
+def load_outcomes(cfg, dataset):
+    p = outcome_path(cfg, dataset)
+    return pd.read_parquet(p) if p.exists() else None
+
+
 def is_synthetic(cfg, dataset):
     p = cache_paths(cfg, dataset)['sql']
     return p.exists() and p.read_text().startswith(SYNTHETIC_MARKER)

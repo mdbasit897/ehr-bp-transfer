@@ -604,12 +604,123 @@ class Runner:
                 rows.append(ci)
         self._save(pd.concat(rows), 'imputation', 'imputation_sensitivity')
 
+    # ------------------------------------------------------ final-audit additions
+    def bp_history_models(self, model=None):
+        """The 'All + BP history' model in all five validation settings (calibration of
+        the clinically relevant model). Three settings reproduce ablation()."""
+        a = self.a
+        model = model or a['primary_model']
+        fs = 'full'
+        rows = []
+        targets = [t for t in a['targets']
+                   if t != 'hypotension' or a['design'] == 'prospective']
+        for target in targets:
+            ps, pt = self.pair(target, fs)
+            log.info('bp_history_models: %s (n=%d, %d)', target, len(ps.y), len(pt.y))
+            preds = {'mimic_internal': (ps, self.oof(model, ps), ps.groups),
+                     'eicu_local': (pt, self.oof(model, pt), pt.sites),
+                     'eicu_local_newhosp': (pt, self.oof(model, pt, group_by='site'), pt.sites),
+                     'mimic_to_eicu': (pt, self.external(model, ps, pt), pt.sites),
+                     'eicu_to_mimic': (ps, self.external(model, pt, ps), ps.groups)}
+            for scen, (prep, p, cl) in preds.items():
+                ci = self._ci(prep.y, p, prep.task, cl, scenario=scen, feature_set=fs,
+                              model=model, target=target)
+                ci['n'] = len(prep.y)
+                rows.append(ci)
+        self._save(pd.concat(rows), 'bp_history_models', 'metrics_ci')
+
+    def modality_by_system(self, model=None):
+        """MIMIC-III split by clinical information system. MIMIC-IV uses MetaVision only,
+        so the MetaVision subset indicates whether the cuff-arterial difference would
+        carry over. Also refits the MIMIC-III model on each subset and transfers it."""
+        a = self.a
+        model = model or a['primary_model']
+        nb, seed = a['n_bootstrap'], self.seed
+        mimic, eicu = self.data['mimic'], self.data['eicu']
+        systems = mimic['ehr_system'].astype(str).str.lower()
+
+        def diffs(df, b, cl_col):
+            ni, art = df[f'hist_{b}_ni_mean'], df[f'hist_{b}_art_mean']
+            ok = (ni.notna() & art.notna()
+                  & (df['hist_nhours_ni'] >= a['min_target_hours'])
+                  & (df['hist_nhours_art'] >= a['min_target_hours'])).to_numpy()
+            return (ni - art).to_numpy()[ok], df[cl_col].to_numpy()[ok]
+
+        rows = []
+        for b in S.BP_TYPES:
+            de, ce = diffs(eicu, b, 'site')
+            for system in sorted(systems.unique()):
+                dm, cm = diffs(mimic[(systems == system).to_numpy()], b, 'patient_id')
+                if len(dm) < 2:
+                    continue
+                own = E.bootstrap(lambda i, d=dm: {'est': float(np.mean(d[i]))},
+                                  [E.ClusterSampler(cm)], nb, seed).iloc[0]
+                dlt = E.bootstrap(lambda i, j, dm=dm, de=de: {
+                    'delta': float(np.mean(de[j]) - np.mean(dm[i]))},
+                    [E.ClusterSampler(cm), E.ClusterSampler(ce)], nb, seed).iloc[0]
+                rows.append({'bp': b, 'mimic_system': system, 'n_stays_mimic': len(dm),
+                             'mimic_cuff_minus_arterial': own['estimate'],
+                             'mimic_ci_low': own['ci_low'], 'mimic_ci_high': own['ci_high'],
+                             'eicu_minus_mimic': dlt['estimate'],
+                             'delta_ci_low': dlt['ci_low'], 'delta_ci_high': dlt['ci_high']})
+        self._save(pd.DataFrame(rows), 'modality_agreement', 'cuff_vs_arterial_by_system')
+
+        rows = []
+        for target in ['sbp', 'dbp', 'mbp']:
+            ps, pt = self.pair(target, a['primary_feature_set'])
+            sysv = ps.meta['ehr_system'].astype(str).str.lower().to_numpy()
+            for system in ['carevue', 'metavision']:
+                idx = np.where(sysv == system)[0]
+                if len(idx) < 100:
+                    continue
+                fitted = E.fit_full(model, ps.subset(idx), self.seed, self.n_jobs)
+                p = M.predict(fitted, pt.X, pt.task)
+                ci = self._ci(pt.y, p, 'regression', pt.sites, scenario='mimic_to_eicu',
+                              mimic_system=system, target=target, model=model)
+                ci['n_train'] = len(idx)
+                rows.append(ci[ci['metric'].isin(['R2', 'RMSE', 'bias'])])
+        self._save(pd.concat(rows), 'modality_agreement', 'transfer_by_system')
+
+    def table1_outcomes(self):
+        """Hospital mortality and a database-specific severity score for the Table 1
+        cohort (same rows as table1())."""
+        from . import extract
+        a = self.a
+        rows = []
+        for ds, df in self.data.items():
+            out = extract.load_outcomes(self.cfg, ds)
+            if out is None:
+                log.warning('table1_outcomes: no outcomes for %s; run the "outcomes" command',
+                            ds)
+                continue
+            m = a['target_modality'][ds]
+            mask, _ = H.target_rows(df, a['primary_target'], a['design'], m, self.cfg)
+            d = df.loc[mask]
+            if a['max_rows']:
+                d = d.loc[H._row_cap_mask(d, a['max_rows'])]
+            out = out.assign(stay_id=out['stay_id'].astype('int64')).drop_duplicates('stay_id')
+            d = d[['stay_id']].merge(out, on='stay_id', how='left')
+            r = {'dataset': 'MIMIC-III' if ds == 'mimic' else 'eICU', 'n_stays': len(d),
+                 'n_mortality_known': int(d['hosp_mortality'].notna().sum()),
+                 'hosp_mortality_pct': 100 * d['hosp_mortality'].mean()}
+            if 'severity' in d:
+                s = d['severity']
+                r.update({'severity_name': out['severity_name'].iloc[0],
+                          'n_severity_known': int(s.notna().sum()),
+                          'severity_median': s.median(), 'severity_q1': s.quantile(.25),
+                          'severity_q3': s.quantile(.75), 'severity_mean': s.mean(),
+                          'severity_sd': s.std()})
+            rows.append(r)
+        if rows:
+            self._save(pd.DataFrame(rows), 'cohort', 'table1_outcomes')
+
     # -------------------------------------------------------------------- all
     def run(self):
         ex = self.cfg['experiments']
         steps = ['cohort', 'shift', 'models_transfer', 'ladder', 'decomposition',
                  'hospitals', 'ablation', 'recalibration', 'domain_adaptation',
-                 'modality_agreement', 'imputation']
+                 'modality_agreement', 'imputation', 'bp_history_models',
+                 'modality_by_system', 'table1_outcomes']
         timings = {}
         for s in steps:
             if not ex.get(s, False):

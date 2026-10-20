@@ -2,6 +2,7 @@
 
   python -m revision.run_revision sql       --config configs/revision.yaml   # print SQL
   python -m revision.run_revision extract   --config configs/revision.yaml   # BigQuery -> cache
+  python -m revision.run_revision outcomes  --config configs/revision.yaml   # Table 1 outcomes
   python -m revision.run_revision analyze   --config configs/revision.yaml   # cache -> results
   python -m revision.run_revision report    --config configs/revision.yaml   # figures/tables
   python -m revision.run_revision synthetic --config configs/revision_smoke.yaml  # offline test
@@ -61,8 +62,8 @@ def _manifest(cfg, command, data_source):
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument('command', choices=['sql', 'extract', 'analyze', 'report', 'synthetic',
-                                        'all'])
+    ap.add_argument('command', choices=['sql', 'extract', 'outcomes', 'analyze', 'report',
+                                        'synthetic', 'all'])
     ap.add_argument('--config', default='configs/revision.yaml')
     ap.add_argument('--force', action='store_true', help='re-extract even if cached')
     ap.add_argument('--dataset', choices=['mimic', 'eicu'], default='mimic',
@@ -88,6 +89,8 @@ def main(argv=None):
         log.warning('Wrote SYNTHETIC data to %s -- for testing only', paths)
     if args.command in ('extract', 'all'):
         extract.extract(cfg, force=args.force)
+    if args.command == 'outcomes':
+        extract.extract_outcomes(cfg, force=args.force)
     if args.command in ('analyze', 'all', 'synthetic'):
         from .experiments import Runner
         raw, flows = {}, {}

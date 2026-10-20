@@ -37,6 +37,16 @@ def test_sql_mentions_cuff_table_and_correct_itemids():
         assert 'stay_seq = 1' in q and 'ORDER BY c.stay_id' in q
 
 
+def test_outcome_queries_do_not_change_feature_cache(cfg):
+    from revision import extract
+    key = extract.cache_key(cfg)
+    assert 'hospital_expire_flag' in sql.outcome_query('mimic')
+    assert "'Expired'" in sql.outcome_query('eicu')
+    q = sql.severity_query(cfg['outcomes']['eicu'])
+    assert "apacheversion = 'IVa'" in q and 'GROUP BY stay_id' in q
+    assert extract.cache_key(cfg) == key
+
+
 def test_gender_mapping_both_databases():
     g = H.map_gender(pd.Series(['M', 'F', 'Male', 'Female', 'Unknown', None]))
     assert g.tolist()[:4] == [0, 1, 0, 1] and g.isna().sum() == 2

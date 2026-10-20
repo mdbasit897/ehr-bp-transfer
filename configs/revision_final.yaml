@@ -1,0 +1,27 @@
+# Final-audit additions. Uses the SAME feature cache as revision.yaml (no feature
+# re-extraction) and writes only new files under results/:
+#   python -m revision.run_revision outcomes --config configs/revision_final.yaml  # BigQuery, small
+#   python -m revision.run_revision analyze  --config configs/revision_final.yaml
+project_id: null   # your GCP billing project (or set GOOGLE_CLOUD_PROJECT); 'outcomes' only
+cache_dir: data_cache
+output_dir: results
+
+analysis:
+  primary_model: xgb
+
+experiments:
+  cohort: false
+  shift: false
+  models_transfer: false
+  ladder: false
+  decomposition: false
+  hospitals: false
+  ablation: false
+  recalibration: false
+  domain_adaptation: false
+  modality_agreement: false
+  imputation: false
+  bp_history_models: true    # B3: 'All + BP history' model, all five settings
+  modality_by_system: true   # B5: MIMIC-III CareVue vs MetaVision
+  table1_outcomes: true      # B7: hospital mortality + severity (run 'outcomes' first)
+  figures: false             # keep the published figures and tables unchanged

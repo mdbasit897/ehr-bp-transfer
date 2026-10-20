@@ -389,3 +389,39 @@ SELECT
           AND los_hours >= @obs_hours) AS n_los_eligible,
   COUNTIF({COHORT_FILTER}) AS n_sampled
 FROM cohort_all"""
+
+
+# ---------------------------------------------------------------------------
+# Outcomes for Table 1. A separate query with its own cache file, so the feature
+# extraction (and its cache key) is unchanged.
+# ---------------------------------------------------------------------------
+
+def outcome_query(dataset):
+    """Hospital mortality per ICU stay; stay_id matches the feature extraction."""
+    if dataset == 'mimic':
+        return f"""
+SELECT icu.icustay_id AS stay_id,
+       CAST(adm.hospital_expire_flag AS FLOAT64) AS hosp_mortality
+FROM `{MIMIC}.icustays` icu
+JOIN `{MIMIC}.admissions` adm ON icu.hadm_id = adm.hadm_id"""
+    if dataset == 'eicu':
+        return f"""
+SELECT patientunitstayid AS stay_id,
+       CASE hospitaldischargestatus WHEN 'Expired' THEN 1.0 WHEN 'Alive' THEN 0.0
+            ELSE NULL END AS hosp_mortality
+FROM `{EICU}.patient`"""
+    raise ValueError(dataset)
+
+
+def severity_query(spec):
+    """Database-specific severity score (e.g. SAPS II, APACHE IV); one row per stay.
+    Scores differ between databases and are not directly comparable."""
+    where = f"WHERE {spec['where']}" if spec.get('where') else ''
+    return f"""
+SELECT stay_id, MAX(severity) AS severity
+FROM (
+  SELECT {spec['id']} AS stay_id, CAST({spec['column']} AS FLOAT64) AS severity
+  FROM `{spec['table']}`
+  {where}
+)
+GROUP BY stay_id"""
