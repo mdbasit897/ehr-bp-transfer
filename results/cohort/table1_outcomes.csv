@@ -1,0 +1,3 @@
+dataset,n_stays,n_mortality_known,hosp_mortality_pct,severity_name,n_severity_known,severity_median,severity_q1,severity_q3,severity_mean,severity_sd
+MIMIC-III,17962,17962,8.417770849571317,SAPS II,17962,32.0,24.0,41.0,33.40040084623093,13.14024838275468
+eICU,40000,39629,8.8697670897575,APACHE IV,35262,54.0,40.0,71.0,57.855538540071464,24.611437784839367

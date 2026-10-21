@@ -9,5 +9,8 @@
   "recalibration": 12.4,
   "domain_adaptation": 214.5,
   "imputation": 19.7,
-  "modality_agreement": 1.1
+  "modality_agreement": 1.1,
+  "bp_history_models": 170.6,
+  "modality_by_system": 9.0,
+  "table1_outcomes": 0.2
 }

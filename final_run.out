@@ -1,0 +1,40 @@
+nohup: ignoring input
+/home/mdbasit_tezu_ernet_in/tpu_workhorse-v4_env/lib/python3.8/site-packages/xgboost/core.py:265: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc 2.28+) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+2026-10-21 08:33:12,272 INFO revision: log: results/run_20261021_083312.log
+2026-10-21 08:33:13,208 INFO revision.experiments: === bp_history_models ===
+2026-10-21 08:33:13,373 INFO revision.harmonize: Dropping features missing in >50% of a dataset: ['lactate']
+2026-10-21 08:33:13,382 INFO revision.experiments: bp_history_models: sbp (n=17962, 40000)
+2026-10-21 08:33:16,694 INFO revision.experiments:   OOF mimic sbp/full xgb (patient) 3s
+2026-10-21 08:33:20,676 INFO revision.experiments:   OOF eicu sbp/full xgb (patient) 4s
+2026-10-21 08:33:24,943 INFO revision.experiments:   OOF eicu sbp/full xgb (site) 4s
+2026-10-21 08:33:25,584 INFO revision.experiments:   fit mimic sbp/full xgb 1s
+2026-10-21 08:33:26,512 INFO revision.experiments:   fit eicu sbp/full xgb 1s
+2026-10-21 08:33:29,594 INFO revision.harmonize: Dropping features missing in >50% of a dataset: ['lactate']
+2026-10-21 08:33:29,602 INFO revision.experiments: bp_history_models: dbp (n=17961, 40000)
+2026-10-21 08:33:32,304 INFO revision.experiments:   OOF mimic dbp/full xgb (patient) 3s
+2026-10-21 08:33:35,897 INFO revision.experiments:   OOF eicu dbp/full xgb (patient) 4s
+2026-10-21 08:33:40,818 INFO revision.experiments:   OOF eicu dbp/full xgb (site) 5s
+2026-10-21 08:33:42,211 INFO revision.experiments:   fit mimic dbp/full xgb 1s
+2026-10-21 08:33:42,882 INFO revision.experiments:   fit eicu dbp/full xgb 1s
+2026-10-21 08:33:45,921 INFO revision.harmonize: Dropping features missing in >50% of a dataset: ['lactate']
+2026-10-21 08:33:45,929 INFO revision.experiments: bp_history_models: mbp (n=17961, 40000)
+2026-10-21 08:33:48,435 INFO revision.experiments:   OOF mimic mbp/full xgb (patient) 3s
+2026-10-21 08:33:52,494 INFO revision.experiments:   OOF eicu mbp/full xgb (patient) 4s
+2026-10-21 08:33:55,871 INFO revision.experiments:   OOF eicu mbp/full xgb (site) 3s
+2026-10-21 08:33:56,360 INFO revision.experiments:   fit mimic mbp/full xgb 0s
+2026-10-21 08:33:57,076 INFO revision.experiments:   fit eicu mbp/full xgb 1s
+2026-10-21 08:34:00,154 INFO revision.harmonize: Dropping features missing in >50% of a dataset: ['lactate']
+2026-10-21 08:34:00,163 INFO revision.experiments: bp_history_models: hypotension (n=17962, 40000)
+2026-10-21 08:34:02,364 INFO revision.experiments:   OOF mimic hypotension/full xgb (patient) 2s
+2026-10-21 08:34:05,647 INFO revision.experiments:   OOF eicu hypotension/full xgb (patient) 3s
+2026-10-21 08:34:08,701 INFO revision.experiments:   OOF eicu hypotension/full xgb (site) 3s
+2026-10-21 08:34:09,180 INFO revision.experiments:   fit mimic hypotension/full xgb 0s
+2026-10-21 08:34:09,893 INFO revision.experiments:   fit eicu hypotension/full xgb 1s
+2026-10-21 08:36:03,829 INFO revision.experiments: === modality_by_system ===
+2026-10-21 08:36:05,701 INFO revision.harmonize: Dropping features missing in >50% of a dataset: ['lactate']
+2026-10-21 08:36:08,256 INFO revision.harmonize: Dropping features missing in >50% of a dataset: ['lactate']
+2026-10-21 08:36:10,598 INFO revision.harmonize: Dropping features missing in >50% of a dataset: ['lactate']
+2026-10-21 08:36:12,802 INFO revision.experiments: === table1_outcomes ===
+2026-10-21 08:36:13,023 INFO revision: timings (s): {'bp_history_models': 170.6, 'modality_by_system': 9.0, 'table1_outcomes': 0.2}

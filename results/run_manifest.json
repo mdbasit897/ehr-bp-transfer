@@ -1,19 +1,13 @@
 {
-  "command": "python -m revision.run_revision analyze --config configs/revision_update.yaml",
+  "command": "/home/mdbasit_tezu_ernet_in/projects/ehr-bp-transfer/revision/run_revision.py analyze --config configs/revision_final.yaml",
   "data_source": "bigquery",
-  "time": "2026-09-28T13:09:39.148977",
+  "time": "2026-10-21T08:33:13.019619",
   "experiments_run": [
-    "cohort",
-    "shift",
-    "decomposition",
-    "hospitals",
-    "ablation",
-    "recalibration",
-    "domain_adaptation",
-    "modality_agreement",
-    "figures"
+    "bp_history_models",
+    "modality_by_system",
+    "table1_outcomes"
   ],
-  "git_commit": "ee5768e21b747db23af0d055e08acf1f62a80dec",
+  "git_commit": "ad7f66ac6fdd04b1735627bad9958c084887e6d7",
   "git_dirty": false,
   "git_changed_files": [],
   "cache_key": "11a84acbac",
@@ -27,7 +21,7 @@
   "config": {
     "project_id": null,
     "cache_dir": "data_cache",
-    "output_dir": "revision_outputs",
+    "output_dir": "results",
     "seed": 42,
     "n_jobs": -1,
     "allow_synthetic": false,
@@ -133,18 +127,36 @@
       }
     ],
     "experiments": {
-      "cohort": true,
-      "shift": true,
+      "cohort": false,
+      "shift": false,
       "models_transfer": false,
       "ladder": false,
-      "decomposition": true,
-      "hospitals": true,
-      "ablation": true,
-      "recalibration": true,
-      "domain_adaptation": true,
-      "modality_agreement": true,
+      "decomposition": false,
+      "hospitals": false,
+      "ablation": false,
+      "recalibration": false,
+      "domain_adaptation": false,
+      "modality_agreement": false,
       "imputation": false,
-      "figures": true
+      "bp_history_models": true,
+      "modality_by_system": true,
+      "table1_outcomes": true,
+      "figures": false
+    },
+    "outcomes": {
+      "mimic": {
+        "name": "SAPS II",
+        "table": "physionet-data.mimiciii_derived.sapsii",
+        "id": "icustay_id",
+        "column": "sapsii"
+      },
+      "eicu": {
+        "name": "APACHE IV",
+        "table": "physionet-data.eicu_crd.apachepatientresult",
+        "id": "patientunitstayid",
+        "column": "apachescore",
+        "where": "apacheversion = 'IVa' AND apachescore >= 0"
+      }
     }
   }
 }
