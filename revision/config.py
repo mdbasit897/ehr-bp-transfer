@@ -13,7 +13,7 @@ DEFAULTS = {
     'n_jobs': -1,
     'allow_synthetic': False,         # only the smoke-test config sets this to true
 
-    # Task definition (R1.4, R2.3, R3). Hours are relative to ICU admission.
+    # Task definition. Hours are relative to ICU admission.
     'extraction': {
         'obs_hours': 24,              # features use data from [0, obs_hours)
         'horizon_start_hours': 24,    # target window start (prediction/index time)

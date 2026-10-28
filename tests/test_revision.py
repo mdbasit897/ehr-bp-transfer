@@ -1,4 +1,4 @@
-"""Fast checks of the pipeline invariants (docs/PIPELINE_NOTES.md). Run: python -m pytest tests -q"""
+"""Fast checks of the pipeline invariants. Run: python -m pytest tests -q"""
 
 import numpy as np
 import pandas as pd

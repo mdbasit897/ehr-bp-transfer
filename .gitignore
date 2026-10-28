@@ -12,3 +12,6 @@ results_fast/
 __pycache__/
 *.pyc
 .pytest_cache/
+
+# IDE settings
+.idea/

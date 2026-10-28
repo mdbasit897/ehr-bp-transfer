@@ -393,7 +393,7 @@ class Runner:
                     corr_rows.append({'target': target, 'shift_measure': shift_col,
                                       'outcome': oc, 'spearman_rho': rho, 'p_value': pval,
                                       'n_hospitals': len(per)})
-            # Which features' hospital-level shift tracks the transfer error? (R3)
+            # Which features' hospital-level shift tracks the transfer error?
             smd_df = pd.DataFrame(site_smd).T.reindex(per['site'].to_numpy())
             fo = (['ext_bias', 'transfer_loss_RMSE'] if pt.task == 'regression'
                   else ['transfer_loss_AUROC'])

@@ -24,9 +24,8 @@ one-parameter recalibration.
 |---|---|
 | `revision/` | Complete analysis pipeline: BigQuery SQL, harmonization, models, validation, shift analysis, figures and LaTeX tables |
 | `configs/` | Run configurations (`revision.yaml` = main analysis) |
-| `tests/` | Unit tests (12) |
+| `tests/` | Unit tests (13) |
 | `results/` | Aggregate outputs of the final run: every number, table and figure in the paper |
-| `docs/PIPELINE_NOTES.md` | Corrections made to an earlier version of the pipeline, and the design requirements referred to in code comments |
 
 **No patient-level data or predictions are included.** MIMIC-III and eICU are
 credentialed-access datasets. `results/` contains only aggregate statistics. Per-hospital
@@ -46,7 +45,7 @@ aggregates.
 
 ```bash
 pip install -r requirements.txt
-python -m pytest tests -q                              # 12 tests, no data needed
+python -m pytest tests -q                              # 13 tests, no data needed
 
 # offline check of the whole pipeline on synthetic data (no data access needed)
 python -m revision.run_revision synthetic --config configs/revision_smoke.yaml
@@ -86,7 +85,7 @@ All paths are relative to `results/`.
 
 | Paper | Source |
 |---|---|
-| Table 1 (cohort characteristics) | `cohort/table1.csv` |
+| Table 1 (cohort characteristics) | `cohort/table1.csv`, `cohort/table1_outcomes.csv` (severity scores, hospital mortality) |
 | Table 2 (gap decomposition) | `decomposition/gap_decomposition.csv` (`weights = linear`), `decomposition/weights_info.csv` |
 | Table 3 (cuff minus arterial pressure) | `modality_agreement/cuff_vs_arterial.csv`; transfer bias from `models_transfer/metrics_ci.csv` |
 | Table 4 (recalibration) | `recalibration/summary.csv` |
@@ -97,14 +96,15 @@ All paths are relative to `results/`.
 | Figure 5 (hospital-level SBP) | `figures/fig_hospitals_sbp.pdf`, `hospitals/per_hospital.csv`, `hospitals/random_effects.csv` |
 | Figure 6 (feature-set ablation) | `figures/fig_feature_ablation.pdf`, `ablation/feature_set_ablation.csv` |
 | Supplementary Table S1 (ladder) | `ladder/ladder_metrics.csv` |
-| Supplementary Tables S2–S5 (models; hypotension calibration; DBP and MAP; RMSE and bias) | `models_transfer/metrics_ci.csv`, `models_transfer/paired_differences.csv` |
+| Supplementary Tables S2–S5 (models; hypotension calibration; DBP and MAP; RMSE and bias) | `models_transfer/metrics_ci.csv`, `models_transfer/paired_differences.csv`; BP-history row of Table S3 from `bp_history_models/metrics_ci.csv` |
 | Supplementary Table S6 (domain separability) | `shift/domain_auc_leave_one_out.csv` |
 | Supplementary Table S7 (tree-weight decomposition) | `decomposition/gap_decomposition.csv` (`weights = tree`) |
-| Supplementary Table S8 (importance weighting) | `domain_adaptation/summary.csv` |
-| Supplementary Table S9 (hospital random effects) | `hospitals/random_effects.csv` |
-| Supplementary Table S10 (feature attribution) | `hospitals/feature_shift_vs_loss.csv` |
-| Supplementary Tables S11–S12 (ablation; complete cases) | `ablation/feature_set_ablation.csv` (`cohort = all` / `complete_case`) |
-| Supplementary Table S13 (imputation) | `imputation/imputation_sensitivity.csv` |
+| Supplementary Table S8 (cuff minus arterial by MIMIC-III information system) | `modality_agreement/cuff_vs_arterial_by_system.csv`, `modality_agreement/transfer_by_system.csv` |
+| Supplementary Table S9 (importance-weighted training) | `domain_adaptation/summary.csv` |
+| Supplementary Table S10 (hospital random effects) | `hospitals/random_effects.csv` |
+| Supplementary Table S11 (feature attribution) | `hospitals/feature_shift_vs_loss.csv` |
+| Supplementary Tables S12–S13 (ablation; complete cases) | `ablation/feature_set_ablation.csv` (`cohort = all` / `complete_case`) |
+| Supplementary Table S14 (imputation) | `imputation/imputation_sensitivity.csv` |
 | Supplementary Figures S1–S5 | `figures/fig_calibration_sbp_xgb.pdf`, `fig_feature_shift.pdf`, `fig_gap_decomposition_sbp.pdf`, `fig_modality_agreement.pdf`, `fig_hospitals_dbp.pdf` |
 
 Data-quality checks are in `cohort/data_quality.csv` and `cohort/cross_dataset_checks.csv`.

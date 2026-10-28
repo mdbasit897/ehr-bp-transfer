@@ -377,7 +377,7 @@ def feature_query(dataset):
 
 
 def flow_query(dataset):
-    """Counts for the cohort flow diagram (R1.3)."""
+    """Counts for the cohort flow diagram (Fig. 1)."""
     head = mimic_cohort_all() if dataset == 'mimic' else eicu_cohort_all()
     return f"""WITH{head}
 SELECT
